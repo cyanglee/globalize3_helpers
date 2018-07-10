@@ -5,6 +5,10 @@ module ActionView::Helpers
       @@active_locale
     end
 
+    def convert_reform_class(object)
+      object.class.superclass.name == 'Reform::Form' ? object.sync : object
+    end
+
     def globalize_fields_for_locale(locale, *args, &proc)
       raise ArgumentError, "Missing block" unless block_given?
       @@active_locale = locale
@@ -58,10 +62,6 @@ module ActionView::Helpers
         id: "language-tabs-#{index}",
         class: "tabbable tabs-left"
       )
-    end
-
-    def self.convert_reform_class(object)
-      object.class.superclass.name == 'Reform::Form' ? object.sync : object
     end
   end
 end
