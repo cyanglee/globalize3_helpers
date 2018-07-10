@@ -10,7 +10,7 @@ module ActionView::Helpers
       @@active_locale = locale
       @index = (@index.present? && @index.is_a?(Integer)) ? @index + 1 : 1
       object_name = "#{@object_name}[translations_attributes][#{@index}]"
-      object = self.convert_reform_class(@object).translation_for(locale.to_s, true)
+      object = convert_reform_class(@object).translation_for(locale.to_s, true)
       @template.concat(@template.hidden_field_tag("#{object_name}[id]", object.id)) unless object.new_record?
       @template.concat(@template.hidden_field_tag("#{object_name}[locale]", locale))
       if @template.respond_to? :simple_fields_for
@@ -44,7 +44,7 @@ module ActionView::Helpers
           class: "#{active_class}",
         )
         fields << self.template.content_tag(:div,
-          self.semantic_fields_for(*(args.dup << self.translation_for(self.object).translation_for(locale)), &proc),
+          self.semantic_fields_for(*(args.dup << convert_reform_class(self.object).translation_for(locale)), &proc),
           :id => "#{url}",
           class: "tab-pane fade #{active_class}"
         )
